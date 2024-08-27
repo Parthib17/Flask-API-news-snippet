@@ -1,4 +1,4 @@
-import pickle
+
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -23,8 +23,6 @@ def summary(url):
         return f"An error occurred: {e}"
 
 # Load the pickled model
-model = pickle.load(open('summary_function.pkl', 'rb'))
-
 @app.route('/')
 def home():
     return "hello world"
@@ -32,7 +30,7 @@ def home():
 @app.route('/summarize', methods=['POST'])
 def summarize():
     url = request.form.get('url')
-    result = { 'summary': model(url)}
+    result = { 'summary': summary(url)}
     return jsonify(result)
 
 if __name__ == '__main__':
