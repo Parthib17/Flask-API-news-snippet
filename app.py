@@ -1,18 +1,14 @@
-
 from flask import Flask, request, jsonify
+import nltk
+from newspaper import Article
 
 app = Flask(__name__)
 
-# Define the summary function
-import nltk
+# Download the punkt tokenizer
 nltk.download('punkt')
+
+# Define the summary function
 def summary(url):
-
-    from newspaper import Article
-
-    # Download the punkt tokenizer
-
-
     try:
         article = Article(url)
         article.download()
@@ -22,15 +18,14 @@ def summary(url):
     except Exception as e:
         return f"An error occurred: {e}"
 
-# Load the pickled model
 @app.route('/')
 def home():
-    return "hello world"
+    return "Hello, world!"
 
 @app.route('/summarize', methods=['POST'])
 def summarize():
     url = request.form.get('url')
-    result = { 'summary': summary(url)}
+    result = {'summary': summary(url)}
     return jsonify(result)
 
 if __name__ == '__main__':
